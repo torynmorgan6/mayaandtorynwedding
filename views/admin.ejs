@@ -1,0 +1,141 @@
+<%# ============================================
+    ADMIN DASHBOARD — admin.ejs
+    Shows RSVP stats, all submissions, registry claims
+    Protected by session auth in routes/admin.js
+    ============================================ %>
+
+<section class="admin-section section-padded">
+  <div class="container">
+
+    <!-- Admin Header -->
+    <div class="admin-header">
+      <div class="admin-header-left">
+        <h1 class="admin-title">Admin Dashboard</h1>
+        <p class="admin-sub">Toryn &amp; Maya — Wedding Management</p>
+      </div>
+      <div class="admin-header-right">
+        <a href="/admin/export-csv" class="btn btn-secondary btn-sm">Export CSV</a>
+        <a href="/admin/logout" class="btn btn-danger btn-sm">Logout</a>
+      </div>
+    </div>
+
+    <!-- ============================================
+         STATS CARDS
+         ============================================ -->
+    <div class="admin-stats-grid">
+      <div class="admin-stat-card">
+        <div class="stat-number"><%= totalRsvps %></div>
+        <div class="stat-label">Total RSVPs</div>
+      </div>
+      <div class="admin-stat-card admin-stat-card--attending">
+        <div class="stat-number"><%= totalAttending %></div>
+        <div class="stat-label">Attending</div>
+      </div>
+      <div class="admin-stat-card admin-stat-card--declined">
+        <div class="stat-number"><%= totalDeclined %></div>
+        <div class="stat-label">Declined</div>
+      </div>
+      <div class="admin-stat-card admin-stat-card--guests">
+        <div class="stat-number"><%= totalGuests %></div>
+        <div class="stat-label">Total Guests Expected</div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         RSVP TABLE
+         ============================================ -->
+    <div class="admin-section-block">
+      <h2 class="admin-section-heading">
+        <span aria-hidden="true">✦</span> All RSVPs
+        <span class="admin-count-badge"><%= totalRsvps %></span>
+      </h2>
+
+      <% if (rsvps.length === 0) { %>
+        <div class="admin-empty">No RSVPs received yet.</div>
+      <% } else { %>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Attending</th>
+              <th>Guests</th>
+              <th>Dietary</th>
+              <th>Song</th>
+              <th>Message</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% rsvps.forEach(function(rsvp) { %>
+            <tr class="<%= rsvp.attending === 'yes' ? 'row-attending' : 'row-declined' %>">
+              <td><%= rsvp.id %></td>
+              <td class="td-name"><strong><%= rsvp.name %></strong></td>
+              <td><%= rsvp.email || '—' %></td>
+              <td class="td-attending">
+                <% if (rsvp.attending === 'yes') { %>
+                  <span class="badge badge-attending">✓ Yes</span>
+                <% } else { %>
+                  <span class="badge badge-declined">✗ No</span>
+                <% } %>
+              </td>
+              <td><%= rsvp.num_guests || 1 %></td>
+              <td><%= rsvp.dietary_restrictions || '—' %></td>
+              <td><%= rsvp.song_request || '—' %></td>
+              <td class="td-message"><%= rsvp.message || '—' %></td>
+              <td class="td-date"><%= new Date(rsvp.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+              <td>
+                <form method="POST" action="/admin/delete-rsvp/<%= rsvp.id %>" onsubmit="return confirm('Delete RSVP for <%= rsvp.name %>?')">
+                  <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                </form>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- ============================================
+         REGISTRY CLAIMS
+         ============================================ -->
+    <div class="admin-section-block">
+      <h2 class="admin-section-heading">
+        <span aria-hidden="true">✦</span> Registry Claims
+        <span class="admin-count-badge"><%= claims.length %></span>
+      </h2>
+
+      <% if (claims.length === 0) { %>
+        <div class="admin-empty">No registry items claimed yet.</div>
+      <% } else { %>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item ID</th>
+              <th>Claimed By</th>
+              <th>Date Claimed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% claims.forEach(function(claim) { %>
+            <tr>
+              <td><%= claim.id %></td>
+              <td><%= claim.registry_item_id %></td>
+              <td><strong><%= claim.claimed_by_name %></strong></td>
+              <td><%= new Date(claim.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+  </div>
+</section>

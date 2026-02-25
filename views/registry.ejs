@@ -1,0 +1,100 @@
+<%# ============================================
+    REGISTRY PAGE — registry.ejs
+    Items and claim logic come from routes/registry.js
+    WHAT TO CHANGE: Edit registryItems array in routes/registry.js
+    ============================================ %>
+
+<section class="registry-section section-padded">
+  <div class="container">
+
+    <!-- Page Header -->
+    <div class="section-header">
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+      <h1 class="section-title">Registry</h1>
+      <!-- CHANGE THIS: Update registry intro text -->
+      <p class="section-subtitle">Your presence is the greatest gift of all.<br>If you do wish to give, here are things we'd love.</p>
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+    </div>
+
+    <!-- Registry Grid -->
+    <div class="registry-grid">
+      <% items.forEach(function(item) { %>
+      <div class="registry-card gothic-card <%= item.claimed ? 'registry-card--claimed' : '' %>" data-item-id="<%= item.id %>">
+
+        <!-- Category Badge -->
+        <div class="registry-category"><%= item.category %></div>
+
+        <!-- Item Name -->
+        <h3 class="registry-item-name"><%= item.name %></h3>
+
+        <!-- Description -->
+        <p class="registry-item-desc"><%= item.description %></p>
+
+        <!-- Price -->
+        <p class="registry-item-price">
+          <span class="price-label" aria-hidden="true">✦</span>
+          <%= item.price %>
+        </p>
+
+        <!-- External Link (if provided) -->
+        <% if (item.link) { %>
+        <a href="<%= item.link %>" class="registry-item-link" target="_blank" rel="noopener noreferrer">
+          View Item ↗
+        </a>
+        <% } %>
+
+        <!-- Claim / Claimed State -->
+        <div class="registry-claim-area">
+          <% if (item.claimed) { %>
+            <div class="claimed-badge">
+              <span aria-hidden="true">✓</span> Claimed by <%= item.claimedBy %>
+            </div>
+          <% } else { %>
+            <button
+              class="btn btn-primary claim-btn"
+              data-item-id="<%= item.id %>"
+              data-item-name="<%= item.name %>"
+              aria-label="Claim <%= item.name %>"
+            >
+              Claim This Gift
+            </button>
+          <% } %>
+        </div>
+
+      </div>
+      <% }); %>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     CLAIM MODAL
+     Shown when "Claim This Gift" is clicked
+     AJAX submission — no page reload
+     ============================================ -->
+<div class="modal-overlay" id="claim-modal" role="dialog" aria-modal="true" aria-labelledby="claim-modal-title" hidden>
+  <div class="modal gothic-card">
+    <div class="modal-ornament" aria-hidden="true">✦</div>
+    <h3 class="modal-title" id="claim-modal-title">Claim This Gift</h3>
+    <p class="modal-body" id="claim-modal-item-name"></p>
+    <p class="modal-body">Please enter your name so the couple knows who gifted this item.</p>
+
+    <div class="form-group">
+      <label class="form-label" for="claimer-name">Your Name</label>
+      <input class="form-input" type="text" id="claimer-name" placeholder="Your full name" autocomplete="name">
+      <p class="form-error-inline" id="claim-error" hidden></p>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirm-claim-btn">Confirm Claim</button>
+      <button class="btn btn-secondary" id="cancel-claim-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Claim success toast -->
+<div class="toast" id="claim-toast" role="status" aria-live="polite" hidden>
+  <span class="toast-icon" aria-hidden="true">✦</span>
+  <span class="toast-message" id="toast-message"></span>
+</div>

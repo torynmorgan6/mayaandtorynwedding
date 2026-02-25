@@ -1,0 +1,165 @@
+<%# ============================================
+    HOME PAGE — index.ejs
+    WHAT TO CHANGE: Couple names, date, location, story text, quick links
+    ============================================ %>
+
+<!-- ============================================
+     HERO SECTION
+     Full-height opening with countdown timer
+     ============================================ -->
+<section class="hero">
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="ornament ornament-top" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+
+    <!-- CHANGE THIS: Update couple names -->
+    <h1 class="hero-title">
+      <span class="hero-name">Toryn Morgan</span>
+      <span class="hero-and">&amp;</span>
+      <span class="hero-name">Maya Maitland</span>
+    </h1>
+
+    <div class="hero-divider" aria-hidden="true">
+      <span class="divider-line"></span>
+      <span class="divider-ornament">✦</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- CHANGE THIS: Update date and location -->
+    <p class="hero-date">August 29, 2026</p>
+    <p class="hero-location">Cooper Landing, Alaska</p>
+
+    <!-- Countdown Timer -->
+    <div class="countdown-wrapper">
+      <p class="countdown-label">Until We Are Wed</p>
+      <!--
+        CHANGE THIS: Update data-wedding-date to your actual date/time (ISO 8601)
+        Format: YYYY-MM-DDTHH:MM:SS  (use local Alaska time, adjust as needed)
+      -->
+      <div class="countdown" id="countdown" data-wedding-date="2026-08-29T17:00:00">
+        <div class="countdown-item">
+          <span class="countdown-number" id="days">--</span>
+          <span class="countdown-unit">Days</span>
+        </div>
+        <div class="countdown-sep" aria-hidden="true">✦</div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="hours">--</span>
+          <span class="countdown-unit">Hours</span>
+        </div>
+        <div class="countdown-sep" aria-hidden="true">✦</div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="minutes">--</span>
+          <span class="countdown-unit">Minutes</span>
+        </div>
+        <div class="countdown-sep" aria-hidden="true">✦</div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="seconds">--</span>
+          <span class="countdown-unit">Seconds</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="/rsvp" class="btn btn-primary hero-cta">RSVP Now</a>
+
+    <div class="ornament ornament-bottom" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+  </div>
+
+  <!-- Floating gothic petals — animated via CSS -->
+  <div class="petals-container" aria-hidden="true">
+    <span class="petal">✿</span>
+    <span class="petal">✾</span>
+    <span class="petal">❧</span>
+    <span class="petal">✿</span>
+    <span class="petal">✾</span>
+    <span class="petal">❧</span>
+    <span class="petal">✿</span>
+    <span class="petal">✾</span>
+    <span class="petal">❧</span>
+  </div>
+</section>
+
+<!-- ============================================
+     OUR STORY SECTION
+     WHAT TO CHANGE: Update intro text about the couple
+     ============================================ -->
+<section class="our-story section-padded fade-in-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+      <h2 class="section-title">Our Story</h2>
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+    </div>
+
+    <!-- CHANGE THIS: Update the story text about the couple -->
+    <div class="story-text gothic-card">
+      <p>Two souls, bound by fate and the wild beauty of Alaska. Toryn and Maya found each other beneath northern skies, woven together by shared adventures, midnight laughter, and a love as deep and wild as the Kenai River itself.</p>
+      <p>Now they invite you — the people who matter most — to witness the beginning of forever. Come celebrate with us among the mountains, the trees, and the golden light of an August evening in Cooper Landing.</p>
+      <p class="story-quote">"In the middle of difficulty lies opportunity — and in each other, we found home."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     QUICK LINKS SECTION
+     WHAT TO CHANGE: Update card text/icons as needed
+     ============================================ -->
+<section class="quick-links section-padded fade-in-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+      <h2 class="section-title">Everything You Need</h2>
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+    </div>
+
+    <div class="links-grid">
+      <a href="/rsvp" class="link-card">
+        <div class="link-card-icon" aria-hidden="true">✉</div>
+        <h3 class="link-card-title">RSVP</h3>
+        <p class="link-card-desc">Let us know you're coming</p>
+      </a>
+
+      <a href="/schedule" class="link-card">
+        <div class="link-card-icon" aria-hidden="true">⌚</div>
+        <h3 class="link-card-title">Schedule</h3>
+        <p class="link-card-desc">The day's timeline</p>
+      </a>
+
+      <a href="/registry" class="link-card">
+        <div class="link-card-icon" aria-hidden="true">✦</div>
+        <h3 class="link-card-title">Registry</h3>
+        <p class="link-card-desc">Gifts we'd love</p>
+      </a>
+
+      <a href="/gallery" class="link-card">
+        <div class="link-card-icon" aria-hidden="true">✿</div>
+        <h3 class="link-card-title">Gallery</h3>
+        <p class="link-card-desc">Our story in photos</p>
+      </a>
+
+      <a href="/directions" class="link-card">
+        <div class="link-card-icon" aria-hidden="true">⬡</div>
+        <h3 class="link-card-title">Directions</h3>
+        <p class="link-card-desc">Getting to Cooper Landing</p>
+      </a>
+
+      <a href="/rules" class="link-card">
+        <div class="link-card-icon" aria-hidden="true">☽</div>
+        <h3 class="link-card-title">Guidelines</h3>
+        <p class="link-card-desc">Day-of details</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SAVE THE DATE REMINDER BAND
+     ============================================ -->
+<section class="date-band fade-in-section">
+  <div class="date-band-inner">
+    <span class="date-band-ornament" aria-hidden="true">✦</span>
+    <!-- CHANGE THIS: Update date and location -->
+    <span class="date-band-text">August 29, 2026 · Cooper Landing, Alaska</span>
+    <span class="date-band-ornament" aria-hidden="true">✦</span>
+  </div>
+</section>

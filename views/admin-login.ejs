@@ -1,0 +1,50 @@
+<%# ============================================
+    ADMIN LOGIN PAGE — admin-login.ejs
+    Password-protected entry point for the admin dashboard
+    WHAT TO CHANGE: ADMIN_PASSWORD in your .env file
+    ============================================ %>
+
+<section class="admin-login-section">
+  <div class="admin-login-container">
+
+    <div class="admin-login-card gothic-card">
+      <!-- Header -->
+      <div class="admin-login-header">
+        <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+        <h1 class="admin-login-title">Admin Access</h1>
+        <p class="admin-login-sub">Toryn &amp; Maya Wedding — Dashboard</p>
+        <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+      </div>
+
+      <!-- Error Message -->
+      <% if (error) { %>
+      <div class="form-error-banner" role="alert">
+        <span aria-hidden="true">✗</span> <%= error %>
+      </div>
+      <% } %>
+
+      <!-- Login Form -->
+      <form class="admin-login-form" method="POST" action="/admin/login">
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input
+            class="form-input"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter admin password"
+            required
+            autofocus
+            autocomplete="current-password"
+          >
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">
+          Enter Dashboard
+        </button>
+      </form>
+
+      <p class="admin-login-back"><a href="/">&larr; Back to Website</a></p>
+    </div>
+
+  </div>
+</section>

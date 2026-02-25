@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+  LAYOUT TEMPLATE — layout.ejs
+  Base template used by ALL pages via express-ejs-layouts.
+  WHAT TO CHANGE:
+  - Couple names in nav brand and footer
+  - Google Fonts (currently Cinzel + Playfair Display + Cormorant Garamond)
+  - Navigation links if adding/removing pages
+  - Wedding date and location in footer
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+
+  <!-- Google Fonts — Gothic & Elegant Typography -->
+  <!-- CHANGE THIS: Swap font names to change the typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="page-<%= page %>">
+
+  <!-- Ambient dark overlay for atmospheric depth -->
+  <div class="ambient-overlay" aria-hidden="true"></div>
+
+  <!-- ============================================
+       NAVIGATION
+       WHAT TO CHANGE: Add/remove nav links to match your pages
+       ============================================ -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <!-- Brand / Logo — CHANGE THIS: Update couple initials -->
+      <a class="nav-brand" href="/">
+        <span class="nav-brand-text">T <span class="nav-ampersand">✦</span> M</span>
+      </a>
+
+      <!-- Hamburger button for mobile -->
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/"           class="<%= page === 'home'      ? 'active' : '' %>">Home</a></li>
+        <li><a href="/rsvp"       class="<%= page === 'rsvp'      ? 'active' : '' %>">RSVP</a></li>
+        <li><a href="/schedule"   class="<%= page === 'schedule'  ? 'active' : '' %>">Schedule</a></li>
+        <li><a href="/registry"   class="<%= page === 'registry'  ? 'active' : '' %>">Registry</a></li>
+        <li><a href="/gallery"    class="<%= page === 'gallery'   ? 'active' : '' %>">Gallery</a></li>
+        <li><a href="/rules"      class="<%= page === 'rules'     ? 'active' : '' %>">Guidelines</a></li>
+        <li><a href="/directions" class="<%= page === 'directions'? 'active' : '' %>">Directions</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       PAGE CONTENT — injected by express-ejs-layouts
+       ============================================ -->
+  <main class="site-main">
+    <%- body %>
+  </main>
+
+  <!-- ============================================
+       FOOTER
+       WHAT TO CHANGE: Update names, date, location, year
+       ============================================ -->
+  <footer class="site-footer">
+    <div class="footer-ornament">⬥ ─────────── ✦ ─────────── ⬥</div>
+    <!-- CHANGE THIS: Update couple names -->
+    <p class="footer-names">Toryn Morgan &amp; Maya Maitland</p>
+    <!-- CHANGE THIS: Update date and location -->
+    <p class="footer-date">August 29, 2026 · Cooper Landing, Alaska</p>
+    <div class="footer-ornament">⬥ ─────────── ✦ ─────────── ⬥</div>
+  </footer>
+
+  <!-- Main JavaScript -->
+  <script src="/js/main.js"></script>
+</body>
+</html>

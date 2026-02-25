@@ -1,0 +1,180 @@
+<%# ============================================
+    RSVP PAGE — rsvp.ejs
+    WHAT TO CHANGE: Form fields, success message text, deadline note
+    ============================================ %>
+
+<section class="rsvp-section section-padded">
+  <div class="container container-narrow">
+
+    <!-- Page Header -->
+    <div class="section-header">
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+      <h1 class="section-title">RSVP</h1>
+      <!-- CHANGE THIS: Update deadline -->
+      <p class="section-subtitle">Kindly respond by July 15, 2026</p>
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+    </div>
+
+    <% if (success) { %>
+    <!-- ============================================
+         SUCCESS STATE
+         Shown after successful form submission
+         CHANGE THIS: Update success message text
+         ============================================ -->
+    <div class="rsvp-success gothic-card">
+      <div class="success-ornament" aria-hidden="true">✦</div>
+      <% if (submittedAttending === 'yes') { %>
+        <h2 class="success-title">We'll See You There!</h2>
+        <p class="success-message">Thank you, <strong><%= submittedName %></strong>. Your RSVP has been received and we cannot wait to celebrate with you on August 29th in Cooper Landing.</p>
+        <p class="success-sub">Watch for updates in your inbox, and check the <a href="/schedule">schedule</a> and <a href="/directions">directions</a> pages for day-of details.</p>
+      <% } else { %>
+        <h2 class="success-title">We'll Miss You</h2>
+        <p class="success-message">Thank you for letting us know, <strong><%= submittedName %></strong>. We're sorry you can't make it, but we'll be thinking of you.</p>
+        <p class="success-sub">With love, Toryn &amp; Maya</p>
+      <% } %>
+      <div class="success-ornament" aria-hidden="true">✦</div>
+      <a href="/" class="btn btn-secondary" style="margin-top:1.5rem;">Return Home</a>
+    </div>
+
+    <% } else { %>
+    <!-- ============================================
+         RSVP FORM
+         ============================================ -->
+
+    <% if (error) { %>
+    <div class="form-error-banner" role="alert">
+      <span aria-hidden="true">✗</span> <%= error %>
+    </div>
+    <% } %>
+
+    <form class="rsvp-form gothic-card" id="rsvp-form" method="POST" action="/rsvp" novalidate>
+
+      <!-- Name — Required -->
+      <div class="form-group">
+        <label class="form-label" for="name">
+          Your Full Name <span class="required" aria-label="required">✦</span>
+        </label>
+        <input
+          class="form-input"
+          type="text"
+          id="name"
+          name="name"
+          placeholder="First &amp; Last Name"
+          required
+          autocomplete="name"
+        >
+      </div>
+
+      <!-- Email — Optional -->
+      <div class="form-group">
+        <label class="form-label" for="email">
+          Email Address <span class="optional">(optional — for updates)</span>
+        </label>
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+        >
+      </div>
+
+      <!-- Attending — Required -->
+      <div class="form-group">
+        <label class="form-label">
+          Will you be attending? <span class="required" aria-label="required">✦</span>
+        </label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="attending" value="yes" required>
+            <span class="radio-custom"></span>
+            <span class="radio-text">✓ &nbsp;Joyfully Accepts</span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="attending" value="no">
+            <span class="radio-custom"></span>
+            <span class="radio-text">✗ &nbsp;Regretfully Declines</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Number of Guests -->
+      <div class="form-group" id="guests-group">
+        <label class="form-label" for="num_guests">
+          Number of Guests <span class="optional">(including yourself)</span>
+        </label>
+        <select class="form-input form-select" id="num_guests" name="num_guests">
+          <% for(let i = 1; i <= 8; i++) { %>
+            <option value="<%= i %>"><%= i %></option>
+          <% } %>
+        </select>
+      </div>
+
+      <!-- Dietary Restrictions -->
+      <div class="form-group">
+        <label class="form-label" for="dietary_restrictions">
+          Dietary Restrictions or Allergies
+        </label>
+        <input
+          class="form-input"
+          type="text"
+          id="dietary_restrictions"
+          name="dietary_restrictions"
+          placeholder="e.g. vegetarian, gluten-free, nut allergy..."
+        >
+      </div>
+
+      <!-- Song Request -->
+      <div class="form-group">
+        <label class="form-label" for="song_request">
+          Song Request
+        </label>
+        <input
+          class="form-input"
+          type="text"
+          id="song_request"
+          name="song_request"
+          placeholder="What song will get you on the dance floor?"
+        >
+      </div>
+
+      <!-- Message -->
+      <div class="form-group">
+        <label class="form-label" for="message">
+          Message to the Couple
+        </label>
+        <textarea
+          class="form-input form-textarea"
+          id="message"
+          name="message"
+          rows="4"
+          placeholder="Share your well wishes, advice, or just say hello..."
+        ></textarea>
+      </div>
+
+      <!-- Required fields note -->
+      <p class="required-note"><span class="required" aria-hidden="true">✦</span> Required fields</p>
+
+      <!-- Submit -->
+      <button type="submit" class="btn btn-primary btn-full">
+        Send My RSVP
+      </button>
+    </form>
+
+    <!-- Exit-intent modal -->
+    <div class="modal-overlay" id="exit-modal" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title" hidden>
+      <div class="modal gothic-card">
+        <div class="modal-ornament" aria-hidden="true">✦</div>
+        <h3 class="modal-title" id="exit-modal-title">Wait — Don't Forget!</h3>
+        <p class="modal-body">You haven't submitted your RSVP yet. Are you sure you want to leave?</p>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="modal-stay">Stay &amp; Finish</button>
+          <button class="btn btn-secondary" id="modal-leave">Leave Without RSVPing</button>
+        </div>
+      </div>
+    </div>
+
+    <% } %>
+  </div>
+</section>
