@@ -1,0 +1,130 @@
+<%# ============================================
+    DIRECTIONS PAGE — directions.ejs
+    WHAT TO CHANGE:
+    - Google Maps embed URL (update with actual venue coordinates)
+    - Airport, driving, and accommodation info
+    ============================================ %>
+
+<section class="directions-section section-padded">
+  <div class="container">
+
+    <!-- Page Header -->
+    <div class="section-header">
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+      <h1 class="section-title">Directions &amp; Travel</h1>
+      <!-- CHANGE THIS: Update location description -->
+      <p class="section-subtitle">Cooper Landing, Alaska<br>A two-hour drive south of Anchorage on the Kenai Peninsula</p>
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+    </div>
+
+    <!-- ============================================
+         GOOGLE MAPS EMBED
+         WHAT TO CHANGE: Replace the src URL with your actual venue map embed
+         To get a Google Maps embed URL:
+         1. Go to Google Maps and search your venue
+         2. Click Share → Embed a map → Copy HTML
+         3. Paste the src URL below
+         ============================================ -->
+    <div class="map-container fade-in-section">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d93388.94177785!2d-150.0321!3d60.4868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x56c6e59a4cf0e9fd%3A0x85c3e43f02c4c6e!2sCooper%20Landing%2C%20AK!5e0!3m2!1sen!2sus!4v1234567890"
+        width="100%"
+        height="400"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Cooper Landing, Alaska map"
+      ></iframe>
+    </div>
+
+    <!-- Info Cards Grid -->
+    <div class="directions-grid">
+
+      <!-- ─── NEAREST AIRPORTS ─── -->
+      <!-- CHANGE THIS: Update airport details -->
+      <div class="directions-card gothic-card fade-in-section">
+        <div class="directions-card-icon" aria-hidden="true">✈</div>
+        <h2 class="directions-card-title">Nearest Airports</h2>
+        <ul class="directions-list">
+          <li>
+            <strong>Ted Stevens Anchorage International (ANC)</strong><br>
+            ~2 hours north of Cooper Landing.<br>
+            The closest major airport — most direct flights.
+          </li>
+          <li>
+            <strong>Kenai Municipal Airport (ENA)</strong><br>
+            ~45 minutes from Cooper Landing.<br>
+            Smaller regional airport with limited connections.
+          </li>
+        </ul>
+        <!-- CHANGE THIS: Update rental car/transport notes -->
+        <p class="directions-note">A rental car is strongly recommended for getting around the Kenai Peninsula.</p>
+      </div>
+
+      <!-- ─── DRIVING DIRECTIONS ─── -->
+      <!-- CHANGE THIS: Update driving directions -->
+      <div class="directions-card gothic-card fade-in-section">
+        <div class="directions-card-icon" aria-hidden="true">⬡</div>
+        <h2 class="directions-card-title">Getting There</h2>
+        <ol class="directions-steps">
+          <li>From <strong>Anchorage</strong>: Take AK-1 South (Seward Highway) for approximately 47 miles.</li>
+          <li>Turn right onto <strong>Sterling Highway (AK-1)</strong> at the junction near Tern Lake.</li>
+          <li>Continue approximately 15 miles to <strong>Cooper Landing</strong>.</li>
+          <li>Follow venue signage on the day — specific venue address will be emailed to guests who RSVP'd.</li>
+        </ol>
+        <!-- CHANGE THIS: Update drive time note -->
+        <p class="directions-note">Total drive from Anchorage: ~2 hours. Allow extra time for scenic stops — the Kenai Peninsula is breathtaking.</p>
+      </div>
+
+      <!-- ─── ACCOMMODATIONS ─── -->
+      <!-- CHANGE THIS: Update hotel/lodging recommendations -->
+      <div class="directions-card gothic-card fade-in-section">
+        <div class="directions-card-icon" aria-hidden="true">☽</div>
+        <h2 class="directions-card-title">Where to Stay</h2>
+        <ul class="directions-list">
+          <li>
+            <strong>Cooper Landing Area Lodges</strong><br>
+            Several small lodges and cabins available directly in Cooper Landing. Book early — availability is limited.
+          </li>
+          <li>
+            <strong>Soldotna / Kenai</strong><br>
+            ~45 minutes away. More hotel options including chain properties.
+          </li>
+          <li>
+            <strong>Seward</strong><br>
+            ~1 hour away. Charming coastal town with inn and B&amp;B options.
+          </li>
+        </ul>
+        <!-- CHANGE THIS: Add hotel block info if you have one -->
+        <p class="directions-note">We recommend booking accommodations well in advance. Alaska in August is peak tourist season.</p>
+      </div>
+
+      <!-- ─── ALASKA TRAVEL TIPS ─── -->
+      <!-- CHANGE THIS: Update travel tips as needed -->
+      <div class="directions-card gothic-card fade-in-section">
+        <div class="directions-card-icon" aria-hidden="true">✦</div>
+        <h2 class="directions-card-title">Alaska Travel Tips</h2>
+        <ul class="directions-list">
+          <li><strong>Weather:</strong> August temperatures average 55–70°F. Bring layers — evenings can be cool. Rain is possible — pack a light jacket.</li>
+          <li><strong>Daylight:</strong> August in Alaska means long days — expect ~17 hours of daylight. Bring an eye mask if you're sensitive.</li>
+          <li><strong>Wildlife:</strong> Keep an eye out for moose, bears, and eagles. Do not approach wildlife. Store food properly if camping.</li>
+          <li><strong>Cell Service:</strong> Cell coverage can be spotty in Cooper Landing. Download offline maps before you arrive.</li>
+          <li><strong>Gas:</strong> Fill up your tank before leaving Anchorage — gas stations become sparse on the Kenai Peninsula.</li>
+        </ul>
+      </div>
+
+    </div><!-- /.directions-grid -->
+
+    <!-- Contact section -->
+    <div class="directions-contact gothic-card fade-in-section">
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+      <!-- CHANGE THIS: Update contact info -->
+      <h2 class="directions-contact-title">Questions?</h2>
+      <p>If you have any questions about travel, logistics, or accessibility needs, don't hesitate to reach out. We want everyone to arrive comfortably and on time.</p>
+      <p>Contact us at: <a href="mailto:torynandmaya2026@gmail.com" class="directions-email">torynandmaya2026@gmail.com</a></p>
+      <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
+    </div>
+
+  </div>
+</section>
