@@ -39,10 +39,30 @@ function initializeDatabase() {
       attending TEXT NOT NULL,
       dietary_restrictions TEXT,
       song_request TEXT,
+      potluck_opt_in TEXT DEFAULT 'no',
+      potluck_category TEXT,
+      potluck_dish TEXT,
       message TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  const rsvpColumns = db.prepare('PRAGMA table_info(rsvps)').all();
+  // NEW: Migration support for structured potluck RSVP fields
+  const hasPotluckOptIn = rsvpColumns.some(col => col.name === 'potluck_opt_in');
+  if (!hasPotluckOptIn) {
+    db.exec("ALTER TABLE rsvps ADD COLUMN potluck_opt_in TEXT DEFAULT 'no'");
+  }
+
+  const hasPotluckCategory = rsvpColumns.some(col => col.name === 'potluck_category');
+  if (!hasPotluckCategory) {
+    db.exec('ALTER TABLE rsvps ADD COLUMN potluck_category TEXT');
+  }
+
+  const hasPotluckDish = rsvpColumns.some(col => col.name === 'potluck_dish');
+  if (!hasPotluckDish) {
+    db.exec('ALTER TABLE rsvps ADD COLUMN potluck_dish TEXT');
+  }
 
   // ============================================
   // REGISTRY CLAIMS TABLE

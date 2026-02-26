@@ -19,6 +19,7 @@
     <!-- Registry Grid -->
     <div class="registry-grid">
       <% items.forEach(function(item) { %>
+      <% const isFundItem = item.type === 'fund' || item.id === 'honeymoon-fund'; %>
       <div class="registry-card gothic-card <%= item.claimed ? 'registry-card--claimed' : '' %>" data-item-id="<%= item.id %>">
 
         <!-- Category Badge -->
@@ -36,27 +37,44 @@
           <%= item.price %>
         </p>
 
-        <!-- External Link (if provided) -->
-        <% if (item.link) { %>
-        <a href="<%= item.link %>" class="registry-item-link" target="_blank" rel="noopener noreferrer">
+        <!-- External Link (if provided for non-fund items) -->
+        <% if (item.link && !isFundItem) { %>
+        <a
+          href="<%= item.link %>"
+          class="registry-item-link js-registry-link"
+          data-item-id="<%= item.id %>"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View Item ↗
         </a>
         <% } %>
 
         <!-- Claim / Claimed State -->
         <div class="registry-claim-area">
-          <% if (item.claimed) { %>
+          <% if (isFundItem) { %>
+            <a
+              href="<%= item.link || '/gift-fund' %>"
+              class="btn btn-primary claim-btn"
+              aria-label="Contribute to Honeymoon Fund"
+            >
+              CONTRIBUTE
+            </a>
+          <% } else if (item.claimed) { %>
             <div class="claimed-badge">
-              <span aria-hidden="true">✓</span> Claimed by <%= item.claimedBy %>
+              <span aria-hidden="true">✓</span> PURCHASED
             </div>
           <% } else { %>
             <button
               class="btn btn-primary claim-btn"
               data-item-id="<%= item.id %>"
               data-item-name="<%= item.name %>"
+              data-requires-link="<%= item.link ? 'true' : 'false' %>"
+              data-default-label="CLAIM THIS GIFT"
+              data-confirm-label="I BOUGHT THIS GIFT"
               aria-label="Claim <%= item.name %>"
             >
-              Claim This Gift
+              CLAIM THIS GIFT
             </button>
           <% } %>
         </div>

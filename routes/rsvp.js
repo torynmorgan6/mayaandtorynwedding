@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
    Saves to database and sends email notification
    ============================================ */
 router.post('/', async (req, res) => {
-  const { name, email, num_guests, attending, dietary_restrictions, song_request, message } = req.body;
+  const { name, email, num_guests, attending, dietary_restrictions, song_request, potluck_opt_in, potluck_category, potluck_dish, message } = req.body;
 
   // Basic validation
   if (!name || !attending) {
@@ -39,23 +39,55 @@ router.post('/', async (req, res) => {
   }
 
   try {
+    // NEW: Structured potluck values are only saved for attending guests
+    const normalizedNumGuests = attending === 'yes' ? (parseInt(num_guests, 10) || 1) : 0;
+    const normalizedDietaryRestrictions = attending === 'yes' && dietary_restrictions
+      ? dietary_restrictions.trim()
+      : '';
+    const normalizedSongRequest = attending === 'yes' && song_request
+      ? song_request.trim()
+      : '';
+    const normalizedPotluckOptIn = attending === 'yes' && potluck_opt_in === 'yes' ? 'yes' : 'no';
+    const normalizedPotluckCategory = attending === 'yes' && normalizedPotluckOptIn === 'yes' && potluck_category
+      ? potluck_category.trim()
+      : '';
+    const normalizedPotluckDish = attending === 'yes' && normalizedPotluckOptIn === 'yes' && potluck_dish
+      ? potluck_dish.trim()
+      : '';
+    const normalizedMessage = message ? message.trim() : '';
+
     // Insert RSVP into database
     const stmt = db.prepare(`
-      INSERT INTO rsvps (name, email, num_guests, attending, dietary_restrictions, song_request, message)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      -- NEW: Includes potluck_opt_in and potluck_category for coordination
+      INSERT INTO rsvps (name, email, num_guests, attending, dietary_restrictions, song_request, potluck_opt_in, potluck_category, potluck_dish, message)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     stmt.run(
       name.trim(),
       email ? email.trim() : '',
-      parseInt(num_guests) || 1,
+      normalizedNumGuests,
       attending,
-      dietary_restrictions ? dietary_restrictions.trim() : '',
-      song_request ? song_request.trim() : '',
-      message ? message.trim() : ''
+      normalizedDietaryRestrictions,
+      normalizedSongRequest,
+      normalizedPotluckOptIn,
+      normalizedPotluckCategory,
+      normalizedPotluckDish,
+      normalizedMessage
     );
 
     // Send email notification (non-blocking — don't fail if email fails)
-    sendEmailNotification({ name, email, num_guests, attending, dietary_restrictions, song_request, message })
+    sendEmailNotification({
+      name: name.trim(),
+      email: email ? email.trim() : '',
+      num_guests: normalizedNumGuests,
+      attending,
+      dietary_restrictions: normalizedDietaryRestrictions,
+      song_request: normalizedSongRequest,
+      potluck_opt_in: normalizedPotluckOptIn,
+      potluck_category: normalizedPotluckCategory,
+      potluck_dish: normalizedPotluckDish,
+      message: normalizedMessage
+    })
       .catch(err => console.error('Email notification failed:', err));
 
     res.render('rsvp', {
@@ -112,6 +144,9 @@ async function sendEmailNotification(rsvp) {
       <p><strong>Number of Guests:</strong> ${rsvp.num_guests || 1}</p>
       <p><strong>Dietary Restrictions:</strong> ${rsvp.dietary_restrictions || 'None'}</p>
       <p><strong>Song Request:</strong> ${rsvp.song_request || 'None'}</p>
+      <p><strong>Potluck Contribution:</strong> ${rsvp.potluck_opt_in === 'yes' ? 'Yes' : 'No'}</p>
+      <p><strong>Potluck Category:</strong> ${rsvp.potluck_category || 'None'}</p>
+      <p><strong>Potluck Dish:</strong> ${rsvp.potluck_dish || 'None'}</p>
       <p><strong>Message:</strong> ${rsvp.message || 'None'}</p>
     `
   });

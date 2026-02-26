@@ -19,6 +19,10 @@ function requireAuth(req, res, next) {
   res.redirect('/admin/login');
 }
 
+function redirectToAdmin(req, res) {
+  return res.redirect('/admin');
+}
+
 /* ============================================
    ADMIN LOGIN PAGE
    ============================================ */
@@ -83,11 +87,26 @@ router.get('/', requireAuth, (req, res) => {
 /* ============================================
    DELETE RSVP
    ============================================ */
-router.post('/delete-rsvp/:id', requireAuth, (req, res) => {
+function deleteRsvpById(req, res) {
   const { id } = req.params;
   db.prepare('DELETE FROM rsvps WHERE id = ?').run(id);
-  res.redirect('/admin');
-});
+  redirectToAdmin(req, res);
+}
+
+router.post('/delete-rsvp/:id', requireAuth, deleteRsvpById);
+router.get('/delete-rsvp/:id', requireAuth, deleteRsvpById);
+
+/* ============================================
+   DELETE REGISTRY CLAIM
+   ============================================ */
+function deleteClaimById(req, res) {
+  const { id } = req.params;
+  db.prepare('DELETE FROM registry_claims WHERE id = ?').run(id);
+  redirectToAdmin(req, res);
+}
+
+router.post('/delete-claim/:id', requireAuth, deleteClaimById);
+router.get('/delete-claim/:id', requireAuth, deleteClaimById);
 
 /* ============================================
    EXPORT RSVPs AS CSV
@@ -95,7 +114,8 @@ router.post('/delete-rsvp/:id', requireAuth, (req, res) => {
 router.get('/export-csv', requireAuth, (req, res) => {
   const rsvps = db.prepare('SELECT * FROM rsvps ORDER BY created_at DESC').all();
 
-  const headers = ['ID', 'Name', 'Email', 'Guests', 'Attending', 'Dietary', 'Song Request', 'Message', 'Date'];
+  // NEW: Potluck coordination fields included in CSV export
+  const headers = ['ID', 'Name', 'Email', 'Guests', 'Attending', 'Dietary', 'Song Request', 'Potluck Opt-In', 'Potluck Category', 'Potluck Dish', 'Message', 'Date'];
   const rows = rsvps.map(r => [
     r.id,
     `"${(r.name || '').replace(/"/g, '""')}"`,
@@ -104,6 +124,9 @@ router.get('/export-csv', requireAuth, (req, res) => {
     r.attending,
     `"${(r.dietary_restrictions || '').replace(/"/g, '""')}"`,
     `"${(r.song_request || '').replace(/"/g, '""')}"`,
+    `"${(r.potluck_opt_in || 'no').replace(/"/g, '""')}"`,
+    `"${(r.potluck_category || '').replace(/"/g, '""')}"`,
+    `"${(r.potluck_dish || '').replace(/"/g, '""')}"`,
     `"${(r.message || '').replace(/"/g, '""')}"`,
     r.created_at
   ]);

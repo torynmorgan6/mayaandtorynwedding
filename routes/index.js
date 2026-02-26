@@ -12,7 +12,7 @@ const router = express.Router();
    ============================================ */
 router.get('/', (req, res) => {
   res.render('index', {
-    title: 'Toryn & Maya — August 29, 2026',
+    title: 'Toryn & Maya — July 29, 2026',
     page: 'home'
   });
 });
@@ -54,6 +54,17 @@ router.get('/directions', (req, res) => {
   res.render('directions', {
     title: 'Directions & Travel — Toryn & Maya',
     page: 'directions'
+  });
+});
+
+/* ============================================
+   HONEYMOON / GIFT FUND PAGE
+   ============================================ */
+router.get('/gift-fund', (req, res) => {
+  // CHANGE THIS: if you rename the file/path, update here
+  res.render('gift-fund', {
+    title: 'Honeymoon Fund — Toryn & Maya',
+    page: 'registry'
   });
 });
 

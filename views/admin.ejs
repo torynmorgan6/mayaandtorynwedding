@@ -64,6 +64,10 @@
               <th>Guests</th>
               <th>Dietary</th>
               <th>Song</th>
+              <!-- NEW: Potluck coordination columns -->
+              <th>Potluck?</th>
+              <th>Category</th>
+              <th>Potluck</th>
               <th>Message</th>
               <th>Date</th>
               <th>Action</th>
@@ -85,10 +89,13 @@
               <td><%= rsvp.num_guests || 1 %></td>
               <td><%= rsvp.dietary_restrictions || '—' %></td>
               <td><%= rsvp.song_request || '—' %></td>
+              <td><%= rsvp.potluck_opt_in === 'yes' ? 'Yes' : 'No' %></td>
+              <td><%= rsvp.potluck_category || '—' %></td>
+              <td><%= rsvp.potluck_dish || '—' %></td>
               <td class="td-message"><%= rsvp.message || '—' %></td>
               <td class="td-date"><%= new Date(rsvp.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
               <td>
-                <form method="POST" action="/admin/delete-rsvp/<%= rsvp.id %>" onsubmit="return confirm('Delete RSVP for <%= rsvp.name %>?')">
+                <form method="POST" action="/admin/delete-rsvp/<%= rsvp.id %>" onsubmit="return confirm('Delete this RSVP?')">
                   <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                 </form>
               </td>
@@ -120,6 +127,7 @@
               <th>Item ID</th>
               <th>Claimed By</th>
               <th>Date Claimed</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -129,6 +137,11 @@
               <td><%= claim.registry_item_id %></td>
               <td><strong><%= claim.claimed_by_name %></strong></td>
               <td><%= new Date(claim.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+              <td>
+                <form method="POST" action="/admin/delete-claim/<%= claim.id %>" onsubmit="return confirm('Delete this registry claim?')">
+                  <button type="submit" class="btn btn-danger btn-xs">Delete Claim</button>
+                </form>
+              </td>
             </tr>
             <% }); %>
           </tbody>

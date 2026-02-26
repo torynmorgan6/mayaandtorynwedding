@@ -25,7 +25,7 @@
       <div class="success-ornament" aria-hidden="true">✦</div>
       <% if (submittedAttending === 'yes') { %>
         <h2 class="success-title">We'll See You There!</h2>
-        <p class="success-message">Thank you, <strong><%= submittedName %></strong>. Your RSVP has been received and we cannot wait to celebrate with you on August 29th in Cooper Landing.</p>
+        <p class="success-message">Thank you, <strong><%= submittedName %></strong>. Your RSVP has been received and we cannot wait to celebrate with you on July 29, 2026 in Cooper Landing.</p>
         <p class="success-sub">Watch for updates in your inbox, and check the <a href="/schedule">schedule</a> and <a href="/directions">directions</a> pages for day-of details.</p>
       <% } else { %>
         <h2 class="success-title">We'll Miss You</h2>
@@ -48,6 +48,11 @@
     <% } %>
 
     <form class="rsvp-form gothic-card" id="rsvp-form" method="POST" action="/rsvp" novalidate>
+
+      <div class="rsvp-rule-note" role="note" aria-label="Age policy reminder">
+        <span aria-hidden="true">✦</span>
+        <strong>This will be a 13+ event.</strong> We kindly ask that no children under 13 attend.
+      </div>
 
       <!-- Name — Required -->
       <div class="form-group">
@@ -105,28 +110,14 @@
           Number of Guests <span class="optional">(including yourself)</span>
         </label>
         <select class="form-input form-select" id="num_guests" name="num_guests">
-          <% for(let i = 1; i <= 8; i++) { %>
+          <% for(let i = 1; i <= 3; i++) { %>
             <option value="<%= i %>"><%= i %></option>
           <% } %>
         </select>
       </div>
-
-      <!-- Dietary Restrictions -->
-      <div class="form-group">
-        <label class="form-label" for="dietary_restrictions">
-          Dietary Restrictions or Allergies
-        </label>
-        <input
-          class="form-input"
-          type="text"
-          id="dietary_restrictions"
-          name="dietary_restrictions"
-          placeholder="e.g. vegetarian, gluten-free, nut allergy..."
-        >
-      </div>
-
+      
       <!-- Song Request -->
-      <div class="form-group">
+      <div class="form-group" id="song-group">
         <label class="form-label" for="song_request">
           Song Request
         </label>
@@ -137,6 +128,55 @@
           name="song_request"
           placeholder="What song will get you on the dance floor?"
         >
+      </div>
+
+      <!-- Potluck Dish -->
+      <div class="form-group" id="potluck-group">
+        <label class="form-label" for="potluck_dish">
+          Potluck Contribution <span class="optional">(optional)</span>
+        </label>
+        <p class="optional">We’re planning a potluck-style reception and will coordinate dishes for a good balance.</p>
+
+        <!-- NEW: Potluck opt-in checkbox -->
+        <div class="radio-group" style="margin-top:0.5rem;">
+          <label class="radio-label" for="potluck_opt_in">
+            <input type="checkbox" id="potluck_opt_in" name="potluck_opt_in" value="yes">
+            <span class="radio-custom"></span>
+            <span class="radio-text">I would like to bring a dish</span>
+          </label>
+        </div>
+
+        <!-- NEW: Progressive reveal details for potluck contribution -->
+        <div id="potluck-details" style="display:none; margin-top:1rem;">
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label" for="potluck_category">
+              Potluck Category
+            </label>
+            <select class="form-input form-select" id="potluck_category" name="potluck_category">
+              <option value="">Select a category</option>
+              <option value="Appetizer">Appetizer</option>
+              <option value="Main Dish">Main Dish</option>
+              <option value="Side">Side</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Drinks">Drinks</option>
+              <option value="Supplies">Supplies (plates, cups, etc.)</option>
+            </select>
+          </div>
+
+          <label class="form-label" for="potluck_dish">
+            What dish are you planning to bring?
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            id="potluck_dish"
+            name="potluck_dish"
+            placeholder="e.g. baked mac and cheese"
+          >
+        </div>
+
+        <!-- NEW: Coordination note -->
+        <p class="optional" style="margin-top:0.75rem;">We may reach out to coordinate dishes if needed.</p>
       </div>
 
       <!-- Message -->

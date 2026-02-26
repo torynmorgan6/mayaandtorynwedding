@@ -56,10 +56,11 @@ const registryItems = [
   },
   {
     id: 'honeymoon-fund',
+    type: 'fund',
     name: 'Honeymoon Fund',
     description: 'Contribute to our honeymoon adventure — every bit helps!',
     price: 'Any amount',
-    link: null,
+    link: '/gift-fund',
     category: 'Experience'
   },
   {
@@ -108,8 +109,8 @@ router.get('/', (req, res) => {
   // Attach claim status to items
   const itemsWithClaims = registryItems.map(item => ({
     ...item,
-    claimed: !!claimsMap[item.id],
-    claimedBy: claimsMap[item.id] || null
+    claimed: item.type === 'fund' ? false : !!claimsMap[item.id],
+    claimedBy: item.type === 'fund' ? null : (claimsMap[item.id] || null)
   }));
 
   res.render('registry', {
@@ -117,6 +118,26 @@ router.get('/', (req, res) => {
     page: 'registry',
     items: itemsWithClaims
   });
+});
+
+/* ============================================
+   TRACK ITEM LINK CLICK
+   Required for linked gifts before claim
+   ============================================ */
+router.post('/link-click/:itemId', (req, res) => {
+  const { itemId } = req.params;
+
+  const item = registryItems.find(i => i.id === itemId);
+  if (!item) {
+    return res.json({ success: false, message: 'Item not found.' });
+  }
+
+  if (!req.session.registryLinkClicks) {
+    req.session.registryLinkClicks = {};
+  }
+
+  req.session.registryLinkClicks[itemId] = true;
+  return res.json({ success: true });
 });
 
 /* ============================================
@@ -136,6 +157,21 @@ router.post('/claim/:itemId', (req, res) => {
     return res.json({ success: false, message: 'Item not found.' });
   }
 
+  if (item.type === 'fund') {
+    return res.json({ success: false, message: 'Please use the Contribute button for the Honeymoon Fund.' });
+  }
+
+  // For linked gifts, require that user clicked the item link first
+  if (item.link) {
+    const clickedMap = req.session.registryLinkClicks || {};
+    if (!clickedMap[itemId]) {
+      return res.json({
+        success: false,
+        message: 'Please open the gift link first, then come back and claim it.'
+      });
+    }
+  }
+
   // Check if already claimed
   const existing = db.prepare('SELECT id FROM registry_claims WHERE registry_item_id = ?').get(itemId);
   if (existing) {
@@ -144,6 +180,10 @@ router.post('/claim/:itemId', (req, res) => {
 
   // Save claim
   db.prepare('INSERT INTO registry_claims (registry_item_id, claimed_by_name) VALUES (?, ?)').run(itemId, claimerName.trim());
+
+  if (req.session.registryLinkClicks && req.session.registryLinkClicks[itemId]) {
+    delete req.session.registryLinkClicks[itemId];
+  }
 
   res.json({ success: true, message: `Thank you! "${item.name}" has been claimed by ${claimerName.trim()}.` });
 });

@@ -1,6 +1,6 @@
 /* ============================================
    GOTHIC WEDDING WEBSITE — MASTER STYLESHEET
-   Maya Maitland & Toryn Morgan — August 29, 2026
+  Maya Maitland & Toryn Morgan — July 29, 2026
 
    TABLE OF CONTENTS:
    1.  CSS Custom Properties (Variables)
@@ -956,6 +956,22 @@ body::before {
   margin-bottom: 1.5rem;
 }
 
+.rsvp-rule-note {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--gold-muted);
+  background: rgba(8, 8, 8, 0.65);
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.rsvp-rule-note span[aria-hidden="true"] {
+  color: var(--gold-muted);
+  margin-right: 0.45rem;
+}
+
 .form-label {
   display: block;
   font-family: var(--font-display);
@@ -1045,7 +1061,8 @@ body::before {
   background: rgba(30, 5, 10, 0.6);
 }
 
-.radio-label input[type="radio"] {
+.radio-label input[type="radio"],
+.radio-label input[type="checkbox"] {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -1063,13 +1080,15 @@ body::before {
   transform: rotate(45deg);
 }
 
-.radio-label input[type="radio"]:checked ~ .radio-custom {
+.radio-label input[type="radio"]:checked ~ .radio-custom,
+.radio-label input[type="checkbox"]:checked ~ .radio-custom {
   background: var(--burgundy);
   border-color: var(--wine-light);
   box-shadow: 0 0 8px rgba(139, 32, 54, 0.5);
 }
 
-.radio-label input[type="radio"]:checked ~ .radio-text {
+.radio-label input[type="radio"]:checked ~ .radio-text,
+.radio-label input[type="checkbox"]:checked ~ .radio-text {
   color: var(--ivory);
 }
 

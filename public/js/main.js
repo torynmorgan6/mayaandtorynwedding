@@ -277,15 +277,74 @@
     }
 
     // Hide guests group when declining
-    const guestsGroup   = document.getElementById('guests-group');
+    const guestsGroup     = document.getElementById('guests-group');
+    const dietaryGroup    = document.getElementById('dietary-group');
+    const songGroup       = document.getElementById('song-group');
+    const potluckGroup    = document.getElementById('potluck-group');
+    const potluckDetails  = document.getElementById('potluck-details');
+    const dietaryInput    = document.getElementById('dietary_restrictions');
+    const songInput       = document.getElementById('song_request');
+    const potluckOptIn    = document.getElementById('potluck_opt_in');
+    const potluckCategory = document.getElementById('potluck_category');
+    const potluckInput    = document.getElementById('potluck_dish');
+    const guestsInput     = document.getElementById('num_guests');
     const attendingRadios = form.querySelectorAll('input[name="attending"]');
+
+    function syncPotluckDetails() {
+      if (!potluckDetails) return;
+      const shouldShow = !!(potluckOptIn && potluckOptIn.checked);
+      potluckDetails.style.display = shouldShow ? '' : 'none';
+
+      if (!shouldShow) {
+        if (potluckCategory) potluckCategory.value = '';
+        if (potluckInput) potluckInput.value = '';
+      }
+    }
+
+    function syncAttendingFields(attendingValue) {
+      const isNotAttending = attendingValue === 'no';
+
+      if (guestsGroup) {
+        guestsGroup.style.display = isNotAttending ? 'none' : '';
+      }
+      if (dietaryGroup) {
+        dietaryGroup.style.display = isNotAttending ? 'none' : '';
+      }
+      if (songGroup) {
+        songGroup.style.display = isNotAttending ? 'none' : '';
+      }
+      if (potluckGroup) {
+        potluckGroup.style.display = isNotAttending ? 'none' : '';
+      }
+
+      if (isNotAttending) {
+        if (dietaryInput) dietaryInput.value = '';
+        if (songInput) songInput.value = '';
+        if (potluckOptIn) potluckOptIn.checked = false;
+        if (potluckCategory) potluckCategory.value = '';
+        if (potluckInput) potluckInput.value = '';
+        if (guestsInput) guestsInput.value = '1';
+      }
+
+      syncPotluckDetails();
+    }
+
     attendingRadios.forEach(function (radio) {
       radio.addEventListener('change', function () {
-        if (guestsGroup) {
-          guestsGroup.style.display = this.value === 'no' ? 'none' : '';
-        }
+        syncAttendingFields(this.value);
       });
     });
+
+    const selectedAttending = form.querySelector('input[name="attending"]:checked');
+    if (selectedAttending) {
+      syncAttendingFields(selectedAttending.value);
+    }
+
+    // NEW: Progressive reveal for potluck details
+    if (potluckOptIn) {
+      potluckOptIn.addEventListener('change', syncPotluckDetails);
+      syncPotluckDetails();
+    }
   }
 
   /* ============================================
@@ -306,12 +365,51 @@
 
     let activeItemId   = null;
     let activeItemName = null;
+    const clickedLinkedItems = new Set();
+
+    // Track external item link clicks for linked gifts
+    document.querySelectorAll('.js-registry-link[data-item-id]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        const itemId = this.getAttribute('data-item-id');
+        if (!itemId) return;
+
+        clickedLinkedItems.add(itemId);
+
+        const claimBtn = document.querySelector('.claim-btn[data-item-id="' + itemId + '"]');
+        if (claimBtn) {
+          const confirmLabel = claimBtn.getAttribute('data-confirm-label') || 'I BOUGHT THIS GIFT';
+          claimBtn.textContent = confirmLabel;
+        }
+
+        fetch('/registry/link-click/' + encodeURIComponent(itemId), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {
+          // No-op: server check will provide final enforcement on claim
+        });
+      });
+    });
 
     // Open modal when claim button clicked
     document.querySelectorAll('.claim-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         activeItemId   = this.getAttribute('data-item-id');
         activeItemName = this.getAttribute('data-item-name');
+        const requiresLink = this.getAttribute('data-requires-link') === 'true';
+        const defaultLabel = this.getAttribute('data-default-label') || 'CLAIM THIS GIFT';
+        const confirmLabel = this.getAttribute('data-confirm-label') || 'I BOUGHT THIS GIFT';
+
+        if (requiresLink && clickedLinkedItems.has(activeItemId)) {
+          this.textContent = confirmLabel;
+        } else {
+          this.textContent = defaultLabel;
+        }
+
+        if (requiresLink && !clickedLinkedItems.has(activeItemId)) {
+          showToast('Please click "View Item" first, then come back to mark this gift as purchased.');
+          return;
+        }
+
         if (claimItemName) claimItemName.textContent = '"' + activeItemName + '"';
         if (claimerInput) claimerInput.value = '';
         if (claimError)   { claimError.textContent = ''; claimError.hidden = true; }
