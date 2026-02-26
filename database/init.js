@@ -4,7 +4,7 @@
    Run automatically when server starts
    ============================================ */
 
-const Database = require('better-sqlite3');
+const { DatabaseSync: Database } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
 
@@ -24,7 +24,7 @@ const db = new Database(dbPath);
    ============================================ */
 function initializeDatabase() {
   // Enable WAL mode for better performance
-  db.pragma('journal_mode = WAL');
+  db.exec('PRAGMA journal_mode = WAL');
 
   // ============================================
   // RSVP TABLE
