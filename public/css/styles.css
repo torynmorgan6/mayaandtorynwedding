@@ -813,17 +813,6 @@ body::after {
   margin-bottom: 1.25rem;
 }
 
-.story-quote {
-  font-family: var(--font-sub);
-  font-style: italic;
-  font-size: 1.2rem !important;
-  color: var(--gold-muted) !important;
-  border-left: 2px solid var(--burgundy);
-  padding-left: 1.25rem;
-  margin-top: 1.5rem !important;
-  text-align: left;
-}
-
 /* Home engagement photo strip */
 .home-engagement {
   padding-top: 0;
