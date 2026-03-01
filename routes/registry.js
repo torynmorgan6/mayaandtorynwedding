@@ -17,42 +17,34 @@ const registryItems = [
   {
     id: 'pots-pans-set',
     name: 'Pots and Pans Set',
-    description: 'A classic 5.5-quart enameled cast iron dutch oven for cozy winter cooking.',
-    price: '$350',
+    description: 'A new set of pots and pans to upgrade our kitchen.',
+    price: '$33',
     link: 'https://hexclad.com/products/pots-and-pans-set',
     category: 'Kitchen'
   },
   {
-    id: 'hiking-pack',
-    name: 'Hiking Backpack (His & Hers)',
-    description: 'Two matching 40L hiking backpacks for Alaska adventures.',
-    price: '$280 each',
-    link: null,
-    category: 'Adventure'
-  },
-  {
-    id: 'espresso-machine',
-    name: 'Espresso Machine',
-    description: 'Semi-automatic espresso machine for morning rituals.',
-    price: '$450',
-    link: null,
+    id: 'glass-tupperware-set',
+    name: 'Glass Tupperware Set',
+    description: 'Glass tupperware for safe food storage.',
+    price: '$350',
+    link: 'https://www.amazon.com/Containers-Lids-MCIRCO-Lifetime-Microwave-Dishwasher/dp/B081JTZNRS/ref=sr_1_6?dib=eyJ2IjoiMSJ9.w8gi7tapStVoGlJnHGfBna-RkOpflP5fCV0kYL9POkSJK_Q8fiqycl5EscOGP_20RpQZ_wtldlrG10GGP_MgphOR-Vcn2ReXqcFc7WNbHEIjdBVNeFyBm8z7gz0DMl1PhIMntC9d7TcmFM0TY4zRQDwU8gUbCgcjEjSmY-Etg-NOL0r7JQwFfALBtwjXuMr7smo3UFTg-qsXUIQ14JayLUBEn4-Uwb1okDBY1QLdACub0FOAW7UKemESfOc-3KS37floL4lDHGJMj0qrDZmC6Se_GhUv9pGXytNlfMbPMqc.gs0x2187g-djDhPTWkqCbUq1zRPrSSKTALkXVZ4J6Mw&dib_tag=se&keywords=tupperware&qid=1772348632&sr=8-6',
     category: 'Kitchen'
   },
   {
-    id: 'kayak',
-    name: 'Tandem Kayak',
-    description: 'A two-person kayak for exploring Alaskan waterways together.',
-    price: '$800',
-    link: null,
-    category: 'Adventure'
+    id: 'ninja-crispi-pro',
+    name: 'Ninja Crispi Pro',
+    description: 'Countertop glass air fryer.',
+    price: '$300',
+    link: 'https://www.bestbuy.com/product/ninja-crispi-pro-6-in-1-countertop-glass-air-fryer-cyberspace/JXJVXLX243/sku/6650389?utm_source=feed&extStoreId=539&ref=212&loc=SaleEvent&gclsrc=aw.ds&gad_source=1&gad_campaignid=23607897536&gclid=Cj0KCQiAwYrNBhDcARIsAGo3u33Ixo3-LZFhk2Nz0Cm7GMWmfqgeRT08IdcmtDBnM7yyl5f3vNKNDcQaAgNWEALw_wcB',
+    category: 'Kitchen'
   },
   {
-    id: 'bedding-set',
-    name: 'Luxury Bedding Set',
-    description: 'King-size organic cotton bedding set in deep navy.',
-    price: '$320',
-    link: null,
-    category: 'Home'
+  id: 'ninja-detect-power-blender-pro',
+  name: 'Ninja Blender Pro',
+  description: 'All in one blender for smoothies, soups, and more.',
+  price: '$150',
+  link: 'https://www.bestbuy.com/product/ninja-detect-power-blender-pro-personal-single-serve-blendsense-technology-1800pw-72-oz-pitcher-to-go-cups-black/JXJVXG5QF6/sku/6551493?utm_source=feed&extStoreId=539&ref=212&loc=20153185852&gclsrc=aw.ds&gad_source=1&gad_campaignid=20149845761&gclid=Cj0KCQiAwYrNBhDcARIsAGo3u321LNdh4O1K60sawq5MyuWSqhOBF65NxSYSjc-6tyAADPU_7nc0fWQaAs50EALw_wcB',
+  category: 'Kitchen'
   },
   {
     id: 'honeymoon-fund',
@@ -64,37 +56,61 @@ const registryItems = [
     category: 'Experience'
   },
   {
-    id: 'wine-cooler',
-    name: 'Wine Refrigerator',
-    description: 'Dual-zone wine cooler for 46 bottles.',
-    price: '$380',
-    link: null,
-    category: 'Home'
-  },
-  {
-    id: 'stand-mixer',
-    name: 'Stand Mixer',
-    description: 'Professional 5-quart stand mixer for baking.',
-    price: '$430',
-    link: null,
+    id: 'kitchen-towels',
+    name: 'Kitchen Towels',
+    description: 'Kitchen towels for everyday use.',
+    price: '$350',
+    link: 'www.amazon.com/dp/B009N83O1C?ref_=',
     category: 'Kitchen'
   },
   {
-    id: 'fire-pit',
-    name: 'Outdoor Fire Pit',
-    description: 'Elegant cast iron fire pit for Alaskan evenings under the stars.',
-    price: '$260',
-    link: null,
-    category: 'Adventure'
+    id: 'date-ideas',
+    name: 'Date Ideas',
+    description: 'Fun date ideas for the couple to enjoy together.',
+    price: '$350',
+    link: 'https://www.amazon.com/dp/B08YWP5QRF?ref_=',
+    category: 'Experience'
   },
   {
-    id: 'photo-album',
-    name: 'Custom Wedding Photo Album',
-    description: 'A hand-bound leather photo album to preserve our wedding memories.',
-    price: '$150',
-    link: null,
+    id: 'vacuum-sealer',
+    name: 'Vacuum Sealer',
+    description: 'Vacuum sealer for safely preserving food.',
+    price: '$350',
+    link: 'www.amazon.com/dp/B01MXLTR09?ref_=hit_wr_dt_ai_md_pt',
     category: 'Experience'
-  }
+  },
+  {
+    id: 'luggage-set',
+    name: 'Luggage Set',
+    description: 'Black 2 Piece Luggage Set',
+    price: '$160',
+    link: 'https://shop.americantourister.com/luggage/sets/rejoy-2-piece-set-%28co%2Fl%29/155767XXXX.html?dwvar_155767XXXX_color=1557670651&cgid=luggage-sets',
+    category: 'Experience'
+  },
+  {
+    id: 'ring-video-doorbell',
+    name: 'Ring Doorbell',
+    description: 'Ring Video Doorbell',
+    price: '$100',
+    link: 'https://www.amazon.com/Ring-Battery-Doorbell-Head-to-Toe-Video-Satin-Nickel/dp/B0BZWRSRWV/ref=sr_1_1?dib=eyJ2IjoiMSJ9.4q7rOpJzrCxN5zMiFAtQw3_5xsOH4vXF8F1H-STUpLjewEe0dK8eFv38Z0pk3cld6pcxeLdMQHYgdi5ydN47zFDFrMag1gbcFmKJ9zRRRlHyCNbcmiGdlPgrZRhJHw9Nf8e3xmcCHnVZpsU9NS4BRIhBiRagghXIatGngGXtxg11DP9Z74Nr559h-4k8VVQULbfZztuyxH-POPpFK-sI7DNHMtDD8ZRdHMmgQ0fTxsWVmmH3o2CgXlo4vOvBgFZX9XnGjGQvdAqcCtdaay3_svJPuXLsI0zE9RCTau-cGnA.pNS16Ykw-D37gA8MQqyt4iCo0xEFtOUfejKRqfBztqY&dib_tag=se&hvadid=665502220740&hvdev=c&hvlocphy=9190495&hvnetw=g&hvqmt=e&hvrand=14357842090577544035&hvtargid=kwd-108350711583&keywords=ring%2Bvideo%2Bdoorbell&qid=1772350870&sr=8-1&ufe=app_do%3Aamzn1.fos.ed73e2ba-4d06-4781-aee7-c317fe036206&th=1',
+    category: 'Home'
+  },
+  {
+    id: 'canon-selphy',
+    name: 'Canon Selphy',
+    description: 'Canon Selphy Wireless Compact Photo Printer',
+    price: '$180',
+    link: 'https://www.bestbuy.com/product/canon-selphy-cp1500-wireless-compact-photo-printer-black/J7C86SR2H4/sku/6521753?utm_source=feed&extStoreId=1760&ref=212&loc=18578179888&gclsrc=aw.ds&gad_source=1&gad_campaignid=18574484544&gclid=Cj0KCQiAwYrNBhDcARIsAGo3u31XZwsZ7M-7seFH2ckP_8ouwbH3ABDnTsuFYdQFrjbVu82xeYeBAa8aAkLiEALw_wcB',
+    category: 'Home'
+  },
+  {
+    id: 'delta-pivotpro-shower',
+    name: 'Replacement Shower Head',
+    description: 'Delta Combination Shower Matte Black',
+    price: '$92',
+    link: 'https://www.lowes.com/pd/Delta-Delta-PivotPro-3-in-1-Combination-Shower-Matte-Black/5016279549?store=&shp-_-c-_-lmn-_-delta-_-kab-_-ggl-_-LMN_PMAX_Delta_KAB_Sales_ShowerHeads_Q4_2025_2081651-_-5016279549-_-online-_-0-_-0&gclsrc=aw.ds&gad_source=1&gad_campaignid=23456608936&gclid=Cj0KCQiAwYrNBhDcARIsAGo3u32Ay4utUeGHDot0ET2mJfuQMa0LMZCBoebAvG9dHMCRsAHe8W108NoaAjzsEALw_wcB',
+    category: 'Home'
+  },
 ];
 
 /* ============================================
@@ -102,15 +118,13 @@ const registryItems = [
    ============================================ */
 router.get('/', (req, res) => {
   // Get all claimed items
-  const claims = db.prepare('SELECT registry_item_id, claimed_by_name FROM registry_claims').all();
-  const claimsMap = {};
-  claims.forEach(c => { claimsMap[c.registry_item_id] = c.claimed_by_name; });
+  const claims = db.prepare('SELECT registry_item_id FROM registry_claims').all();
+  const claimedIds = new Set(claims.map(c => c.registry_item_id));
 
   // Attach claim status to items
   const itemsWithClaims = registryItems.map(item => ({
     ...item,
-    claimed: item.type === 'fund' ? false : !!claimsMap[item.id],
-    claimedBy: item.type === 'fund' ? null : (claimsMap[item.id] || null)
+    claimed: item.type === 'fund' ? false : claimedIds.has(item.id)
   }));
 
   res.render('registry', {
@@ -185,7 +199,7 @@ router.post('/claim/:itemId', (req, res) => {
     delete req.session.registryLinkClicks[itemId];
   }
 
-  res.json({ success: true, message: `Thank you! "${item.name}" has been claimed by ${claimerName.trim()}.` });
+  res.json({ success: true, message: `Thank you! "${item.name}" has been marked as purchased.` });
 });
 
 module.exports = router;

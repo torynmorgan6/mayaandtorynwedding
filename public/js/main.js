@@ -8,8 +8,7 @@
    3. Scroll Animations (IntersectionObserver)
    4. RSVP Page: beforeunload + exit intent modal
    5. Registry: AJAX claim system
-   6. Gallery: Filter buttons + lightbox
-   7. Utilities
+  6. Utilities
    ============================================ */
 
 (function () {
@@ -352,19 +351,8 @@
      AJAX POST to /registry/claim/:itemId
      ============================================ */
   function initRegistry() {
-    const claimModal    = document.getElementById('claim-modal');
-    const claimerInput  = document.getElementById('claimer-name');
-    const confirmBtn    = document.getElementById('confirm-claim-btn');
-    const cancelBtn     = document.getElementById('cancel-claim-btn');
-    const claimItemName = document.getElementById('claim-modal-item-name');
-    const claimError    = document.getElementById('claim-error');
     const toast         = document.getElementById('claim-toast');
     const toastMsg      = document.getElementById('toast-message');
-
-    if (!claimModal) return;
-
-    let activeItemId   = null;
-    let activeItemName = null;
     const clickedLinkedItems = new Set();
 
     // Track external item link clicks for linked gifts
@@ -390,129 +378,59 @@
       });
     });
 
-    // Open modal when claim button clicked
+    // Direct claim when button clicked (no name modal)
     document.querySelectorAll('.claim-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        activeItemId   = this.getAttribute('data-item-id');
-        activeItemName = this.getAttribute('data-item-name');
+        const itemId = this.getAttribute('data-item-id');
         const requiresLink = this.getAttribute('data-requires-link') === 'true';
         const defaultLabel = this.getAttribute('data-default-label') || 'CLAIM THIS GIFT';
         const confirmLabel = this.getAttribute('data-confirm-label') || 'I BOUGHT THIS GIFT';
 
-        if (requiresLink && clickedLinkedItems.has(activeItemId)) {
+        if (requiresLink && clickedLinkedItems.has(itemId)) {
           this.textContent = confirmLabel;
         } else {
           this.textContent = defaultLabel;
         }
 
-        if (requiresLink && !clickedLinkedItems.has(activeItemId)) {
+        if (requiresLink && !clickedLinkedItems.has(itemId)) {
           showToast('Please click "View Item" first, then come back to mark this gift as purchased.');
           return;
         }
 
-        if (claimItemName) claimItemName.textContent = '"' + activeItemName + '"';
-        if (claimerInput) claimerInput.value = '';
-        if (claimError)   { claimError.textContent = ''; claimError.hidden = true; }
-        openModal(claimModal);
-        if (claimerInput) claimerInput.focus();
-      });
-    });
+        this.disabled = true;
+        this.textContent = 'Claiming…';
 
-    // Cancel
-    if (cancelBtn) {
-      cancelBtn.addEventListener('click', function () {
-        closeModal(claimModal);
-        activeItemId = null;
-      });
-    }
-
-    // Click outside
-    if (claimModal) {
-      claimModal.addEventListener('click', function (e) {
-        if (e.target === claimModal) {
-          closeModal(claimModal);
-          activeItemId = null;
-        }
-      });
-    }
-
-    // Escape key
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && claimModal && !claimModal.hidden) {
-        closeModal(claimModal);
-        activeItemId = null;
-      }
-    });
-
-    // Allow pressing Enter in input to confirm
-    if (claimerInput) {
-      claimerInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          if (confirmBtn) confirmBtn.click();
-        }
-      });
-    }
-
-    // Confirm claim
-    if (confirmBtn) {
-      confirmBtn.addEventListener('click', function () {
-        if (!activeItemId || !claimerInput) return;
-
-        const name = claimerInput.value.trim();
-        if (!name) {
-          if (claimError) {
-            claimError.textContent = 'Please enter your name.';
-            claimError.hidden = false;
-          }
-          claimerInput.focus();
-          return;
-        }
-
-        confirmBtn.disabled = true;
-        confirmBtn.textContent = 'Claiming…';
-
-        fetch('/registry/claim/' + activeItemId, {
+        fetch('/registry/claim/' + itemId, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ claimerName: name })
+          body: JSON.stringify({ claimerName: 'Anonymous Guest' })
         })
           .then(function (res) { return res.json(); })
           .then(function (data) {
-            confirmBtn.disabled = false;
-            confirmBtn.textContent = 'Confirm Claim';
-
             if (data.success) {
-              closeModal(claimModal);
-              // Update the card UI in-place
-              updateCardClaimed(activeItemId, name);
+              updateCardClaimed(itemId);
               showToast(data.message || 'Gift claimed successfully!');
-              activeItemId = null;
             } else {
-              if (claimError) {
-                claimError.textContent = data.message || 'Something went wrong.';
-                claimError.hidden = false;
-              }
+              this.disabled = false;
+              this.textContent = defaultLabel;
+              showToast(data.message || 'Something went wrong.');
             }
-          })
+          }.bind(this))
           .catch(function () {
-            confirmBtn.disabled = false;
-            confirmBtn.textContent = 'Confirm Claim';
-            if (claimError) {
-              claimError.textContent = 'Network error. Please try again.';
-              claimError.hidden = false;
-            }
-          });
+            this.disabled = false;
+            this.textContent = defaultLabel;
+            showToast('Network error. Please try again.');
+          }.bind(this));
       });
-    }
+    });
 
-    function updateCardClaimed(itemId, name) {
+    function updateCardClaimed(itemId) {
       const card = document.querySelector('[data-item-id="' + itemId + '"]');
       if (!card) return;
       card.classList.add('registry-card--claimed');
       const claimArea = card.querySelector('.registry-claim-area');
       if (claimArea) {
-        claimArea.innerHTML = '<div class="claimed-badge"><span aria-hidden="true">✓</span> Claimed by ' + escapeHtml(name) + '</div>';
+        claimArea.innerHTML = '<div class="claimed-badge" role="status" aria-label="Purchased"><span aria-hidden="true">✓</span> PURCHASED</div>';
       }
     }
 
@@ -525,153 +443,8 @@
   }
 
   /* ============================================
-     6. GALLERY
-     - Category filter buttons
-     - Lightbox
+     6. UTILITIES
      ============================================ */
-  function initGallery() {
-    // Filter buttons
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-
-    if (filterBtns.length && galleryItems.length) {
-      filterBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          filterBtns.forEach(function (b) { b.classList.remove('active'); });
-          this.classList.add('active');
-
-          const filter = this.getAttribute('data-filter');
-          galleryItems.forEach(function (item) {
-            if (filter === 'all' || item.getAttribute('data-category') === filter) {
-              item.classList.remove('gallery-hidden');
-            } else {
-              item.classList.add('gallery-hidden');
-            }
-          });
-        });
-      });
-    }
-
-    // Lightbox
-    const lightbox      = document.getElementById('lightbox');
-    const closeBtn      = document.getElementById('lightbox-close');
-    const prevBtn       = document.getElementById('lightbox-prev');
-    const nextBtn       = document.getElementById('lightbox-next');
-    const imageWrap     = document.getElementById('lightbox-image-wrap');
-    const captionEl     = document.getElementById('lightbox-caption');
-
-    if (!lightbox) return;
-
-    let currentIndex = 0;
-    let visibleItems = [];
-
-    function getVisibleItems() {
-      return Array.from(galleryItems).filter(function (item) {
-        return !item.classList.contains('gallery-hidden');
-      });
-    }
-
-    // Open lightbox on item click
-    galleryItems.forEach(function (item) {
-      item.addEventListener('click', function () {
-        if (item.classList.contains('gallery-hidden')) return;
-        visibleItems = getVisibleItems();
-        currentIndex = visibleItems.indexOf(item);
-        showLightboxItem(currentIndex);
-        lightbox.hidden = false;
-        document.body.style.overflow = 'hidden';
-        if (closeBtn) closeBtn.focus();
-      });
-    });
-
-    function showLightboxItem(index) {
-      if (!imageWrap || !captionEl) return;
-      const item = visibleItems[index];
-      if (!item) return;
-
-      // Clone the visual content of the item
-      const placeholder = item.querySelector('.gallery-placeholder');
-      const img         = item.querySelector('img');
-      const caption     = item.getAttribute('data-caption') || '';
-
-      imageWrap.innerHTML = '';
-
-      if (img) {
-        const clone = img.cloneNode(true);
-        clone.style.maxHeight = '75vh';
-        clone.style.width = 'auto';
-        imageWrap.appendChild(clone);
-      } else if (placeholder) {
-        const clone = placeholder.cloneNode(true);
-        clone.style.width = '400px';
-        clone.style.height = '300px';
-        clone.style.maxWidth = '100%';
-        imageWrap.appendChild(clone);
-      }
-
-      captionEl.textContent = caption;
-
-      // Show/hide prev/next
-      if (prevBtn) prevBtn.style.display = visibleItems.length > 1 ? '' : 'none';
-      if (nextBtn) nextBtn.style.display = visibleItems.length > 1 ? '' : 'none';
-    }
-
-    function closeLightbox() {
-      lightbox.hidden = true;
-      document.body.style.overflow = '';
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', function () {
-        currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
-        showLightboxItem(currentIndex);
-      });
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', function () {
-        currentIndex = (currentIndex + 1) % visibleItems.length;
-        showLightboxItem(currentIndex);
-      });
-    }
-
-    // Close on overlay click
-    lightbox.addEventListener('click', function (e) {
-      if (e.target === lightbox) closeLightbox();
-    });
-
-    // Keyboard nav
-    document.addEventListener('keydown', function (e) {
-      if (!lightbox || lightbox.hidden) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft' && prevBtn)  prevBtn.click();
-      if (e.key === 'ArrowRight' && nextBtn) nextBtn.click();
-    });
-  }
-
-  /* ============================================
-     7. UTILITIES
-     ============================================ */
-  function openModal(modal) {
-    if (!modal) return;
-    modal.hidden = false;
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal(modal) {
-    if (!modal) return;
-    modal.hidden = true;
-    document.body.style.overflow = '';
-  }
-
-  function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
   /* ============================================
      INIT — Run everything when DOM is ready
      ============================================ */
@@ -681,7 +454,6 @@
     initScrollAnimations();
     initRsvpPage();
     initRegistry();
-    initGallery();
   }
 
   if (document.readyState === 'loading') {

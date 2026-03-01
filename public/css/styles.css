@@ -168,51 +168,88 @@ strong {
 
 /* ============================================
    4. BACKGROUND TEXTURE & BODY
-   Pure CSS dark gothic texture — no images needed
+   Subtle, slow ambient layers (no repeating patterns)
    ============================================ */
 
-/* Main dark damask-style repeating pattern */
+body {
+  background:
+    radial-gradient(140% 100% at 50% 0%, rgba(61, 10, 18, 0.2) 0%, rgba(8, 8, 8, 0) 55%),
+    linear-gradient(180deg, #0b0b0c 0%, #080808 60%, #060606 100%);
+  background-color: var(--black);
+}
+
+/* Layer 1: soft vignette that slowly breathes */
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
-  background-image:
-    /* Subtle diagonal cross-hatch */
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 40px,
-      rgba(201, 168, 76, 0.015) 40px,
-      rgba(201, 168, 76, 0.015) 41px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 40px,
-      rgba(201, 168, 76, 0.015) 40px,
-      rgba(201, 168, 76, 0.015) 41px
-    ),
-    /* Deep radial vignette */
-    radial-gradient(
-      ellipse at center,
-      rgba(30, 5, 10, 0) 0%,
-      rgba(8, 8, 8, 0.5) 100%
-    );
-  background-color: var(--black);
+  inset: -8%;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(107, 26, 42, 0.08) 0%, rgba(8, 8, 8, 0) 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 48%, rgba(0, 0, 0, 0.5) 100%);
+  opacity: 0.5;
+  transform: scale(1);
+  transform-origin: center center;
+  animation: ambient-breathe 90s ease-in-out infinite;
   pointer-events: none;
   z-index: -2;
 }
 
-/* Vignette overlay at edges */
-.ambient-overlay {
+/* Layer 2: faint gradient drift */
+body::after {
+  content: '';
   position: fixed;
-  inset: 0;
+  inset: -10%;
   background:
-    radial-gradient(ellipse at top left, rgba(107, 26, 42, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at bottom right, rgba(107, 26, 42, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%);
+    radial-gradient(120% 100% at 15% 25%, rgba(107, 26, 42, 0.05) 0%, rgba(8, 8, 8, 0) 60%),
+    radial-gradient(120% 100% at 85% 75%, rgba(61, 10, 18, 0.05) 0%, rgba(8, 8, 8, 0) 62%);
+  background-size: 180% 180%, 180% 180%;
+  background-position: 0% 50%, 100% 50%;
+  opacity: 0.35;
+  animation: ambient-drift 120s linear infinite;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
+}
+
+/* Legacy overlay element is intentionally disabled in favor of pseudo-element layers */
+.ambient-overlay {
+  display: none;
+}
+
+@keyframes ambient-breathe {
+  0%,
+  100% {
+    opacity: 0.48;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.58;
+    transform: scale(1.025);
+  }
+}
+
+@keyframes ambient-drift {
+  0% {
+    background-position: 0% 50%, 100% 50%;
+  }
+  50% {
+    background-position: 100% 50%, 0% 50%;
+  }
+  100% {
+    background-position: 0% 50%, 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+
+  .photo-cascade .engagement-photo {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .site-main {
@@ -776,6 +813,52 @@ body::before {
   padding-left: 1.25rem;
   margin-top: 1.5rem !important;
   text-align: left;
+}
+
+/* Home engagement photo strip */
+.home-engagement {
+  padding-top: 0;
+}
+
+.engagement-strip {
+  max-width: 940px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.engagement-photo {
+  margin: 0;
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  background: rgba(19, 19, 19, 0.55);
+  overflow: hidden;
+}
+
+.engagement-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.03);
+}
+
+.photo-cascade .engagement-photo {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: engagementCascade 0.9s ease forwards;
+}
+
+.photo-cascade .engagement-photo:nth-child(1) {
+  animation-delay: 0.22s;
+}
+
+.photo-cascade .engagement-photo:nth-child(2) {
+  animation-delay: 0.38s;
+}
+
+.photo-cascade .engagement-photo:nth-child(3) {
+  animation-delay: 0.54s;
 }
 
 /* Quick Links Grid */
@@ -2198,6 +2281,17 @@ body::before {
   to   { opacity: 1; }
 }
 
+@keyframes engagementCascade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Toast slide in */
 @keyframes toastIn {
   from { transform: translateX(100%); opacity: 0; }
@@ -2251,6 +2345,16 @@ body::before {
 
   .links-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .engagement-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .engagement-photo:last-child {
+    grid-column: 1 / -1;
+    max-width: calc(50% - 0.5rem);
+    justify-self: center;
   }
 
   .gallery-grid {
@@ -2334,6 +2438,10 @@ body::before {
   .links-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+
+  .engagement-strip {
+    gap: 0.75rem;
   }
 
   /* Timeline mobile — stack vertically */
@@ -2437,6 +2545,16 @@ body::before {
 }
 
 @media (max-width: 480px) {
+  .engagement-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .engagement-photo:last-child {
+    grid-column: auto;
+    max-width: none;
+    justify-self: stretch;
+  }
+
   .hero-title {
     font-size: clamp(1.2rem, 6vw, 1.8rem);
   }

@@ -13,6 +13,7 @@
       <h1 class="section-title">Registry</h1>
       <!-- CHANGE THIS: Update registry intro text -->
       <p class="section-subtitle">Your presence is the greatest gift of all.<br>If you do wish to give, here are things we'd love.</p>
+      <p class="section-subtitle-2">P.S.<br>These are all suggestions, nothing needs to match exactly if you do wish to give a gift. Feel free to shop around for better pricing!</p>
       <div class="ornament" aria-hidden="true">⬥ ─── ✦ ─── ⬥</div>
     </div>
 
@@ -61,7 +62,7 @@
               CONTRIBUTE
             </a>
           <% } else if (item.claimed) { %>
-            <div class="claimed-badge">
+            <div class="claimed-badge" role="status" aria-label="Purchased">
               <span aria-hidden="true">✓</span> PURCHASED
             </div>
           <% } else { %>
@@ -85,31 +86,6 @@
 
   </div>
 </section>
-
-<!-- ============================================
-     CLAIM MODAL
-     Shown when "Claim This Gift" is clicked
-     AJAX submission — no page reload
-     ============================================ -->
-<div class="modal-overlay" id="claim-modal" role="dialog" aria-modal="true" aria-labelledby="claim-modal-title" hidden>
-  <div class="modal gothic-card">
-    <div class="modal-ornament" aria-hidden="true">✦</div>
-    <h3 class="modal-title" id="claim-modal-title">Claim This Gift</h3>
-    <p class="modal-body" id="claim-modal-item-name"></p>
-    <p class="modal-body">Please enter your name so the couple knows who gifted this item.</p>
-
-    <div class="form-group">
-      <label class="form-label" for="claimer-name">Your Name</label>
-      <input class="form-input" type="text" id="claimer-name" placeholder="Your full name" autocomplete="name">
-      <p class="form-error-inline" id="claim-error" hidden></p>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="confirm-claim-btn">Confirm Claim</button>
-      <button class="btn btn-secondary" id="cancel-claim-btn">Cancel</button>
-    </div>
-  </div>
-</div>
 
 <!-- Claim success toast -->
 <div class="toast" id="claim-toast" role="status" aria-live="polite" hidden>

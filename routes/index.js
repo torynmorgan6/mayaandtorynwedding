@@ -28,13 +28,10 @@ router.get('/schedule', (req, res) => {
 });
 
 /* ============================================
-   GALLERY PAGE
+   LEGACY GALLERY URL
    ============================================ */
 router.get('/gallery', (req, res) => {
-  res.render('gallery', {
-    title: 'Our Story — Toryn & Maya',
-    page: 'gallery'
-  });
+  res.redirect('/');
 });
 
 /* ============================================
