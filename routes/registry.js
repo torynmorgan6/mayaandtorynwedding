@@ -15,11 +15,11 @@ const { db } = require('../database/init');
 const registryItems = [
   /* CHANGE THIS: Replace with your actual registry items */
   {
-    id: 'dutch-oven',
-    name: 'Cast Iron Dutch Oven',
+    id: 'pots-pans-set',
+    name: 'Pots and Pans Set',
     description: 'A classic 5.5-quart enameled cast iron dutch oven for cozy winter cooking.',
     price: '$350',
-    link: 'https://www.lecreuset.com',
+    link: 'https://hexclad.com/products/pots-and-pans-set',
     category: 'Kitchen'
   },
   {

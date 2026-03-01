@@ -8,15 +8,15 @@ const { DatabaseSync: Database } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
 
+// Persistent SQLite path for Render (uses mounted disk in production)
+const DB_PATH = process.env.DB_PATH || '/var/data/wedding.sqlite';
+
 // Ensure the database directory exists
-const dbDir = path.join(__dirname);
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
-}
+const dbDir = path.dirname(DB_PATH);
+fs.mkdirSync(dbDir, { recursive: true });
 
 // Database file location — change path if needed
-const dbPath = path.join(__dirname, 'wedding.db');
-const db = new Database(dbPath);
+const db = new Database(DB_PATH);
 
 /* ============================================
    INITIALIZE DATABASE TABLES
