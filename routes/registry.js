@@ -15,18 +15,10 @@ const { db } = require('../database/init');
 const registryItems = [
   /* CHANGE THIS: Replace with your actual registry items */
   {
-    id: 'pots-pans-set',
-    name: 'Pots and Pans Set',
-    description: 'A new set of pots and pans to upgrade our kitchen.',
-    price: '$33',
-    link: 'https://hexclad.com/products/pots-and-pans-set',
-    category: 'Kitchen'
-  },
-  {
     id: 'glass-tupperware-set',
     name: 'Glass Tupperware Set',
     description: 'Glass tupperware for safe food storage.',
-    price: '$350',
+    price: '$33',
     link: 'https://www.amazon.com/Containers-Lids-MCIRCO-Lifetime-Microwave-Dishwasher/dp/B081JTZNRS/ref=sr_1_6?dib=eyJ2IjoiMSJ9.w8gi7tapStVoGlJnHGfBna-RkOpflP5fCV0kYL9POkSJK_Q8fiqycl5EscOGP_20RpQZ_wtldlrG10GGP_MgphOR-Vcn2ReXqcFc7WNbHEIjdBVNeFyBm8z7gz0DMl1PhIMntC9d7TcmFM0TY4zRQDwU8gUbCgcjEjSmY-Etg-NOL0r7JQwFfALBtwjXuMr7smo3UFTg-qsXUIQ14JayLUBEn4-Uwb1okDBY1QLdACub0FOAW7UKemESfOc-3KS37floL4lDHGJMj0qrDZmC6Se_GhUv9pGXytNlfMbPMqc.gs0x2187g-djDhPTWkqCbUq1zRPrSSKTALkXVZ4J6Mw&dib_tag=se&keywords=tupperware&qid=1772348632&sr=8-6',
     category: 'Kitchen'
   },
@@ -59,15 +51,15 @@ const registryItems = [
     id: 'kitchen-towels',
     name: 'Kitchen Towels',
     description: 'Kitchen towels for everyday use.',
-    price: '$350',
-    link: 'www.amazon.com/dp/B009N83O1C?ref_=',
+    price: '$20',
+    link: 'http://www.amazon.com/dp/B009N83O1C?ref_=',
     category: 'Kitchen'
   },
   {
     id: 'date-ideas',
     name: 'Date Ideas',
     description: 'Fun date ideas for the couple to enjoy together.',
-    price: '$350',
+    price: '$17',
     link: 'https://www.amazon.com/dp/B08YWP5QRF?ref_=',
     category: 'Experience'
   },
@@ -75,8 +67,8 @@ const registryItems = [
     id: 'vacuum-sealer',
     name: 'Vacuum Sealer',
     description: 'Vacuum sealer for safely preserving food.',
-    price: '$350',
-    link: 'www.amazon.com/dp/B01MXLTR09?ref_=hit_wr_dt_ai_md_pt',
+    price: '$52',
+    link: 'https://www.amazon.com/dp/B01MXLTR09?ref_=hit_wr_dt_ai_md_pt&th=1',
     category: 'Experience'
   },
   {
@@ -86,14 +78,6 @@ const registryItems = [
     price: '$160',
     link: 'https://shop.americantourister.com/luggage/sets/rejoy-2-piece-set-%28co%2Fl%29/155767XXXX.html?dwvar_155767XXXX_color=1557670651&cgid=luggage-sets',
     category: 'Experience'
-  },
-  {
-    id: 'ring-video-doorbell',
-    name: 'Ring Doorbell',
-    description: 'Ring Video Doorbell',
-    price: '$100',
-    link: 'https://www.amazon.com/Ring-Battery-Doorbell-Head-to-Toe-Video-Satin-Nickel/dp/B0BZWRSRWV/ref=sr_1_1?dib=eyJ2IjoiMSJ9.4q7rOpJzrCxN5zMiFAtQw3_5xsOH4vXF8F1H-STUpLjewEe0dK8eFv38Z0pk3cld6pcxeLdMQHYgdi5ydN47zFDFrMag1gbcFmKJ9zRRRlHyCNbcmiGdlPgrZRhJHw9Nf8e3xmcCHnVZpsU9NS4BRIhBiRagghXIatGngGXtxg11DP9Z74Nr559h-4k8VVQULbfZztuyxH-POPpFK-sI7DNHMtDD8ZRdHMmgQ0fTxsWVmmH3o2CgXlo4vOvBgFZX9XnGjGQvdAqcCtdaay3_svJPuXLsI0zE9RCTau-cGnA.pNS16Ykw-D37gA8MQqyt4iCo0xEFtOUfejKRqfBztqY&dib_tag=se&hvadid=665502220740&hvdev=c&hvlocphy=9190495&hvnetw=g&hvqmt=e&hvrand=14357842090577544035&hvtargid=kwd-108350711583&keywords=ring%2Bvideo%2Bdoorbell&qid=1772350870&sr=8-1&ufe=app_do%3Aamzn1.fos.ed73e2ba-4d06-4781-aee7-c317fe036206&th=1',
-    category: 'Home'
   },
   {
     id: 'canon-selphy',
